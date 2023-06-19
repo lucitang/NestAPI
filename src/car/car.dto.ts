@@ -1,6 +1,9 @@
+import {PartialType} from "@nestjs/mapped-types";
 export class CarDto{
-    readonly id: number;
-    readonly brand: string;
-    readonly color: string;
-    readonly model: string;
+    id: number;
+    brand: string;
+    color: string;
+    model: string;
 }
+
+export class UpdateCarDto extends PartialType(CarDto) {};

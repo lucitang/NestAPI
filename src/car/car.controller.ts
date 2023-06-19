@@ -1,6 +1,6 @@
-import { Controller, Param, Get, Body, Post, Delete, Put, Query } from '@nestjs/common';
+import { Controller, Param, Get, Body, Post, Delete, Patch } from '@nestjs/common';
 import { CarService } from './car.service';
-import { CarDto } from './car.dto';
+import { CarDto, UpdateCarDto } from './car.dto';
 
 @Controller('car')
 export class CarController {
@@ -10,28 +10,26 @@ export class CarController {
 
     @Get()
     getCar(){
-        return  this.carservice.getCar();
+        return this.carservice.getCar();
     }
     @Post()
     postCar(@Body() car: CarDto){
-         this.carservice.postCar(car);
+        return this.carservice.postCar(car);
     }
 
     @Get(':arg')
-    getbyID(@Param('arg') arg: number){
-        return this.carservice.getbyID(arg);
+    getbyID(@Param('arg') arg: string){
+        return this.carservice.getbyID(+arg);
     }
 
     @Delete(':arg')
-    deletebyID(@Param('arg') arg: number){
-        return this.carservice.deletebyID(arg);
+    deletebyID(@Param('arg') arg: string){
+        return this.carservice.deletebyID(+arg);
     }
 
-    @Put(':arg')
-    putbyID(@Param('arg') arg: number, @Query() query){
-        const propName = query.proeprty_name;
-        const propValue = query.property_value;
-        return this.carservice.putbyID(arg, propName, propValue);
+    @Patch(':id')
+    putbyID(@Param('id') id: string, @Body() updatevalue: UpdateCarDto ){
+        return this.carservice.patchbyID(+id, updatevalue);
     }
 
 }
